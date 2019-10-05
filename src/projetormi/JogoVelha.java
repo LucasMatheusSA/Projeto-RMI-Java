@@ -9,6 +9,8 @@ import static java.lang.Math.random;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +18,7 @@ import java.util.Random;
  */
 public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
 {   
-    
+    int jogando = 0;
     String vet[] = new String[9];
     
     public JogoVelha () throws RemoteException{
@@ -148,6 +150,31 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
     public int jogada(int jogada) throws RemoteException {
         if(vet[jogada] == " "){
             vet[jogada] = "O";
+        }else{
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
+    public int getStatus() throws RemoteException {
+        return this.jogando;
+    }
+
+    @Override
+    public void setStatus(int status) throws RemoteException {
+        this.jogando = status;
+    }
+
+    @Override
+    public int jogadaMult(int jogada, String simbolo) {
+        if(vet[jogada] == " "){
+            vet[jogada] = simbolo;
+            if(simbolo == "O"){
+                setStatus(getStatus() + 1);
+            }else{
+                setStatus(getStatus() - 1);
+            }
         }else{
             return 0;
         }
