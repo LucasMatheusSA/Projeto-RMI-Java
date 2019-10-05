@@ -90,7 +90,7 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
         sb.append(" |     |  1  |  2  |  3  |     |\n");
         sb.append(" |     |_____|_____|_____|     |\n");
         sb.append("  ========= V E L H A =========\n");
-        sb.append("--> Para jogar digite o número correspondente ao campo representado acima.\n");
+        sb.append("--> Para jogar digite o número correspondente ao campo representado acima.");
         return sb.toString();
     }
 

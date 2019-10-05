@@ -86,48 +86,7 @@ public class Cliente {
             switch(op){
                 case 0: break;
                 case 1:
-                    clean();
-                    System.out.println(remoto.instrucao());
-                    remoto.initVet();
-                    sleep((float) 3.5);
-                    if(remoto.first() == 1){
-                        System.out.println("--> CPU começa jogando !!!");
-                        sleep(2);clean();
-                        System.out.println(remoto.jogaCPU());
-                    }else{
-                        System.out.println("--> Você começa Jogando !!!");
-                        sleep(2);clean();
-                        System.out.println(remoto.printJogo());
-                    }  
-                    
-                    while(true){
-                        do{
-                            System.out.printf("-->Digite o campo: ");
-                            op = ler.nextInt();
-                            if(op > 9 || op < 1){
-                                clean();
-                                System.out.printf("!!! '%d' É uma opção invalida!!!\n",op);
-                                sleep(2);
-                                clean();
-                                System.out.println(remoto.printJogo());
-                            }else{
-                                op = remoto.jogada(op - 1);
-                                if(op == 0){
-                                    clean();
-                                    System.out.printf("!!! É um campo que já esta ocupado!!!\n",op);
-                                    sleep(2);
-                                    clean();
-                                    System.out.println(remoto.printJogo());
-                                }
-                            }
-                        }while(op > 9 || op < 1);
-                        
-                        if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
-                        clean();
-                        System.out.println(remoto.jogaCPU());
-                        if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
-                    }
-                    clean();
+                    SinglePlayer(remoto);
                     break;
                 case 2:
                     clean();
@@ -160,13 +119,13 @@ public class Cliente {
         if(result == 2){
             clean();
             System.out.println(jogo);
-            System.out.println("--> Você perdeu  :'( ...");
+            System.out.printf("--> Você perdeu  :'( ...");
             sleep(2);
             return 2;
         }else if(result == 1){
             clean();
             System.out.println(jogo);
-            System.out.println("--> VOCÊ VENCEEEU !!!  : D ");
+            System.out.printf("--> VOCÊ VENCEEEU !!!  : D ");
             sleep(2);
             return 1;
         }else if(result ==  3){
@@ -176,5 +135,55 @@ public class Cliente {
             return 3;
         }
         return 0;
+    }
+    
+    public static void SinglePlayer(JogoVelhaRemote remoto) throws IOException, InterruptedException{
+        Scanner ler = new Scanner(System.in);
+        int op = 0;
+        
+        clean();
+        System.out.println(remoto.instrucao());
+        remoto.initVet();
+        sleep((float) 3.5);
+        if(remoto.first() == 1){
+            clean();
+            System.out.println("--> CPU começa jogando !!!");
+            sleep(2);clean();
+            System.out.println(remoto.jogaCPU());
+        }else{
+            clean();
+            System.out.println("--> Você começa Jogando !!!");
+            sleep(2);clean();
+            System.out.println(remoto.printJogo());
+        }  
+                    
+        while(true){
+            do{
+                System.out.printf("-->Digite o campo: ");
+                op = ler.nextInt();
+                if(op > 9 || op < 1){
+                    clean();
+                    System.out.printf("!!! '%d' É uma opção invalida!!!\n",op);
+                    sleep(2);
+                    clean();
+                    System.out.println(remoto.printJogo());
+                }else{
+                    op = remoto.jogada(op - 1);
+                    if(op == 0){
+                        clean();
+                        System.out.printf("!!! É um campo que já esta ocupado!!!\n",op);
+                        sleep(2);
+                        clean();
+                        System.out.println(remoto.printJogo());
+                    }
+                }
+            }while(op > 9 || op < 1);
+                        
+            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
+            clean();
+            System.out.println(remoto.jogaCPU());
+            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
+        }
+        clean();
     }
 }
