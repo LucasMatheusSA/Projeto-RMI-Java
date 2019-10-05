@@ -157,27 +157,39 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
     }
 
     @Override
-    public int getStatus() throws RemoteException {
+    synchronized public int getStatus() throws RemoteException {
         return this.jogando;
     }
 
     @Override
-    public void setStatus(int status) throws RemoteException {
+    synchronized public void setStatus(int status) throws RemoteException {
         this.jogando = status;
     }
 
     @Override
-    public int jogadaMult(int jogada, String simbolo) {
+    public int jogadaMult(int jogada, String simbolo) throws RemoteException{
         if(vet[jogada] == " "){
             vet[jogada] = simbolo;
-            if(simbolo == "O"){
-                setStatus(getStatus() + 1);
-            }else{
-                setStatus(getStatus() - 1);
-            }
         }else{
             return 0;
         }
-        return 1;
+        if(simbolo == "O"){
+            setStatus(2);
+        }else{
+            setStatus(1);                        
+        }
+        return getStatus();
+    }
+
+    @Override
+    public void initVetMult() throws RemoteException {
+        initVet();
+        this.jogando = 0;
+    }
+
+    @Override
+    public void cleanVetMult() throws RemoteException {
+        cleanVet();
+        this.jogando = 0;
     }
 }

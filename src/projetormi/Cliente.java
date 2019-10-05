@@ -89,10 +89,7 @@ public class Cliente {
                     SinglePlayer(remoto);
                     break;
                 case 2:
-                    clean();
-                    System.out.println(remoto.Teste2());
-                    sleep(2);
-                    clean();
+                    MultPlayer(remoto);
                     break;
                 default: 
                     clean();
@@ -193,19 +190,26 @@ public class Cliente {
         int statusInicial = remoto.getStatus();
         int codigo = statusInicial + 1;
         String simbolo = new String();
+        remoto.initVetMult();
         clean();
         
         if(statusInicial == 0){
            remoto.setStatus(codigo);
            simbolo = "O";
            aguardaOponenteLogar(remoto,codigo);
+           System.out.println("--> Oponente Logado, você começa.");
+           sleep(1);
+           clean();
         }else{
-           remoto.setStatus(codigo);
            simbolo = "X";
+           System.out.println("--> Oponente Logado, você é o segundo a jogar.");
+           clean();
            aguardaOponenteJogar(remoto,codigo); 
         }
+        
         while(true){
-            do{
+            do{ 
+                System.out.println(remoto.printJogo());
                 System.out.printf("-->Digite o campo: ");
                 op = ler.nextInt();
                 if(op > 9 || op < 1){
@@ -213,7 +217,6 @@ public class Cliente {
                     System.out.printf("!!! '%d' É uma opção invalida!!!\n",op);
                     sleep(2);
                     clean();
-                    System.out.println(remoto.printJogo());
                 }else{
                     op = remoto.jogadaMult(op - 1,simbolo);
                     if(op == 0){
@@ -221,23 +224,27 @@ public class Cliente {
                         System.out.printf("!!! É um campo que já esta ocupado!!!\n",op);
                         sleep(2);
                         clean();
-                        System.out.println(remoto.printJogo());
                     }
                 }
             }while(op > 9 || op < 1);
                         
-            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
+            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVetMult();break;}
             clean();
             aguardaOponenteJogar(remoto,codigo);
-            remoto.printJogo();
-            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
+            clean();
+            System.out.println("--> Oponente jogou, sua vez." + op);
+            sleep(3);
+            clean();
+            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVetMult();break;}
         }
+        clean();
     }
     
-    public static boolean aguardaOponenteJogar (JogoVelhaRemote remoto, int status) throws RemoteException, InterruptedException{
+    public static void aguardaOponenteJogar (JogoVelhaRemote remoto, int status) throws RemoteException, InterruptedException, IOException{
         String pontos = new String();
         
-        while(status == remoto.getStatus()){
+        do{ 
+            clean();
             System.out.println("--> Aguardando jogada do oponente" + pontos);
             sleep((float) 0.5);
             if(pontos.length() == 6){
@@ -245,15 +252,15 @@ public class Cliente {
             }else{
                 pontos += ". ";
             }
-            return false;
-        }
-        return true;
+        }while(status != remoto.getStatus());
+        clean();
     }
     
-    public static boolean aguardaOponenteLogar (JogoVelhaRemote remoto, int status) throws RemoteException, InterruptedException{
+    public static void aguardaOponenteLogar (JogoVelhaRemote remoto, int status) throws RemoteException, InterruptedException, IOException{
         String pontos = new String();
         
-        while(status == remoto.getStatus()){
+        do{
+            clean();
             System.out.println("--> Aguardando oponente logar" + pontos);
             sleep((float) 0.5);
             if(pontos.length() == 6){
@@ -261,8 +268,7 @@ public class Cliente {
             }else{
                 pontos += ". ";
             }
-            return false;
-        }
-        return true;
+        }while(status == remoto.getStatus());
+        clean();
     }
 }
