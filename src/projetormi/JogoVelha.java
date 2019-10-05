@@ -34,16 +34,18 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
     @Override
     public String printJogo() throws RemoteException {
         StringBuilder sb = new StringBuilder();
-        sb.append("  _____ _____ _____ \n");
-        sb.append(" |     |     |     | \n");
-        sb.append(" |  "+ vet[6] +"  |  "+ vet[7] +"  |  "+ vet[8] +"  | \n");
-        sb.append(" |_____|_____|_____| \n");
-        sb.append(" |     |     |     | \n");
-        sb.append(" |  "+ vet[3] +"  |  "+ vet[4] +"  |  "+ vet[5] +"  | \n");
-        sb.append(" |_____|_____|_____| \n");
-        sb.append(" |     |     |     | \n");
-        sb.append(" |  "+ vet[0] +"  |  "+ vet[1] +"  |  "+ vet[2] +"  | \n");
-        sb.append(" |_____|_____|_____| \n");
+        sb.append("  ========== J O G O ==========\n");
+        sb.append(" |      _____ _____ _____      |\n");
+        sb.append(" |     |     |     |     |     |\n");
+        sb.append(" |     |  "+ vet[6] +"  |  "+ vet[7] +"  |  "+ vet[8] +"  |     |\n");
+        sb.append(" |     |_____|_____|_____|     |\n");
+        sb.append(" |     |     |     |     |     |\n");
+        sb.append(" |     |  "+ vet[3] +"  |  "+ vet[4] +"  |  "+ vet[5] +"  |     |\n");
+        sb.append(" |     |_____|_____|_____|     |\n");
+        sb.append(" |     |     |     |     |     |\n");
+        sb.append(" |     |  "+ vet[0] +"  |  "+ vet[1] +"  |  "+ vet[2] +"  |     |\n");
+        sb.append(" |     |_____|_____|_____|     |\n");
+        sb.append("  ========= V E L H A =========\n");
         return sb.toString();
     }
 
@@ -76,16 +78,18 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
     @Override
     public String instrucao() throws RemoteException {
         StringBuilder sb = new StringBuilder();
-        sb.append("  _____ _____ _____ \n");
-        sb.append(" |     |     |     | \n");
-        sb.append(" |  7  |  8  |  9  | \n");
-        sb.append(" |_____|_____|_____| \n");
-        sb.append(" |     |     |     | \n");
-        sb.append(" |  4  |  5  |  6  | \n");
-        sb.append(" |_____|_____|_____| \n");
-        sb.append(" |     |     |     | \n");
-        sb.append(" |  1  |  2  |  3  | \n");
-        sb.append(" |_____|_____|_____| \n");
+        sb.append("  ========== J O G O ==========\n");
+        sb.append(" |      _____ _____ _____      |\n");
+        sb.append(" |     |     |     |     |     |\n");
+        sb.append(" |     |  7  |  8  |  9  |     |\n");
+        sb.append(" |     |_____|_____|_____|     |\n");
+        sb.append(" |     |     |     |     |     |\n");
+        sb.append(" |     |  4  |  5  |  6  |     |\n");
+        sb.append(" |     |_____|_____|_____|     |\n");
+        sb.append(" |     |     |     |     |     |\n");
+        sb.append(" |     |  1  |  2  |  3  |     |\n");
+        sb.append(" |     |_____|_____|_____|     |\n");
+        sb.append("  ========= V E L H A =========\n");
         sb.append("--> Para jogar digite o número correspondente ao campo representado acima.\n");
         return sb.toString();
     }
@@ -108,23 +112,36 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
     @Override
     public int endGame() throws RemoteException {
         String op = new String();
+        op = " ";
         
-        if(vet[7] == vet[6] && vet[6] == vet[8] && vet[6] != " ")op = vet[6]; 
-        if(vet[3] == vet[4] && vet[4] == vet[5] && vet[4] != " ")op = vet[4]; 
-        if(vet[0] == vet[1] && vet[1] == vet[2] && vet[1] != " ")op = vet[1]; 
-        if(vet[6] == vet[3] && vet[3] == vet[0] && vet[3] != " ")op = vet[3]; 
-        if(vet[7] == vet[4] && vet[4] == vet[1] && vet[4] != " ")op = vet[4]; 
-        if(vet[8] == vet[5] && vet[5] == vet[2] && vet[5] != " ")op = vet[5]; 
-        if(vet[6] == vet[4] && vet[4] == vet[2] && vet[4] != " ")op = vet[4]; 
-        if(vet[8] == vet[4] && vet[4] == vet[0] && vet[4] != " ")op = vet[4]; 
+        if(vet[7] == vet[6] && vet[6] == vet[8] && vet[6] != " ")op = vet[6];
+        if(vet[3] == vet[4] && vet[4] == vet[5] && vet[4] != " ")op = vet[4];
+        if(vet[0] == vet[1] && vet[1] == vet[2] && vet[1] != " ")op = vet[1];
+        if(vet[6] == vet[3] && vet[3] == vet[0] && vet[3] != " ")op = vet[3];
+        if(vet[7] == vet[4] && vet[4] == vet[1] && vet[4] != " ")op = vet[4];
+        if(vet[8] == vet[5] && vet[5] == vet[2] && vet[5] != " ")op = vet[5];
+        if(vet[6] == vet[4] && vet[4] == vet[2] && vet[4] != " ")op = vet[4];
+        if(vet[8] == vet[4] && vet[4] == vet[0] && vet[4] != " ")op = vet[4];
         
         if(op == "X"){
             return 2;
         }else if(op == "O"){
             return 1;
+        }else if(op == " " && checkLines()){
+            return 3;
         }else{
             return 0;
         }
+        
+    }
+    
+    public boolean checkLines(){
+        for(int i = 0; i < 9 ; i++){
+            if(vet[i] == " "){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -134,6 +151,6 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
         }else{
             return 0;
         }
-        return jogada;
+        return 1;
     }
 }

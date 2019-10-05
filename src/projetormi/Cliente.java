@@ -21,6 +21,7 @@ public class Cliente {
         Scanner ler = new Scanner(System.in);
         int op = 0;
         
+        clean();
         do{
             System.out.println(" ========== M E N U ========== ");
             System.out.println("|                             |");
@@ -28,9 +29,14 @@ public class Cliente {
             System.out.println("|    1 - Jogar                |");
             System.out.println("|    0 - Sair                 |");
             System.out.println("|                             |");
+            System.out.println("|                             |");
+            System.out.println("|                             |");
+            System.out.println("|                             |");
+            System.out.println("|                             |");
+            System.out.println("|                             |");
             System.out.println(" ============================= ");
             System.out.println("");
-            System.out.println("--> Digite uma opção:");
+            System.out.printf("--> Digite uma opção:");
             op = ler.nextInt();
             switch(op){
                 case 0: break;
@@ -64,9 +70,14 @@ public class Cliente {
         do{
             System.out.println(" ========== M E N U ========== ");
             System.out.println("|                             |");
+            System.out.println("|                             |");
             System.out.println("|    1 - SinglePlayer         |");
             System.out.println("|    2 - MultPlayer           |");
             System.out.println("|    0 - Voltar               |");
+            System.out.println("|                             |");
+            System.out.println("|                             |");
+            System.out.println("|                             |");
+            System.out.println("|                             |");
             System.out.println("|                             |");
             System.out.println(" ============================= ");
             System.out.println("");
@@ -100,21 +111,21 @@ public class Cliente {
                                 clean();
                                 System.out.println(remoto.printJogo());
                             }else{
-                            op = remoto.jogada(op - 1);
-                            if(op == 0){
-                                clean();
-                                System.out.printf("!!! '%d' É um campo que já esta ocupado!!!\n",op);
-                                sleep(2);
-                                clean();
-                                System.out.println(remoto.printJogo());
-                            }
+                                op = remoto.jogada(op - 1);
+                                if(op == 0){
+                                    clean();
+                                    System.out.printf("!!! É um campo que já esta ocupado!!!\n",op);
+                                    sleep(2);
+                                    clean();
+                                    System.out.println(remoto.printJogo());
+                                }
                             }
                         }while(op > 9 || op < 1);
                         
-                        if(checkGame(remoto.endGame()) != 0){remoto.cleanVet();break;}
+                        if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
                         clean();
                         System.out.println(remoto.jogaCPU());
-                        if(checkGame(remoto.endGame()) != 0){remoto.cleanVet();break;}
+                        if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVet();break;}
                     }
                     clean();
                     break;
@@ -145,17 +156,24 @@ public class Cliente {
         Thread.sleep((long) (num*1000));
     }
     
-    public static int checkGame(int result) throws InterruptedException, IOException{
+    public static int checkGame(int result,String jogo) throws InterruptedException, IOException{
         if(result == 2){
             clean();
+            System.out.println(jogo);
             System.out.println("--> Você perdeu  :'( ...");
             sleep(2);
             return 2;
         }else if(result == 1){
             clean();
+            System.out.println(jogo);
             System.out.println("--> VOCÊ VENCEEEU !!!  : D ");
             sleep(2);
             return 1;
+        }else if(result ==  3){
+            clean();
+            System.out.println("--> Empate! ¯\\_(ツ)_/¯ ");
+            sleep(2);
+            return 3;
         }
         return 0;
     }
