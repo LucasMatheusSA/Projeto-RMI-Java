@@ -25,7 +25,8 @@ public interface JogoVelhaRemote extends Remote{
     public void setStatus(int status)throws RemoteException;
     public void initVetMult() throws RemoteException;
     public void cleanVetMult() throws RemoteException;
-    public int jogadaMult(int jogada,String simbolo) throws RemoteException;;
+    public int jogadaMult(int jogada,String simbolo) throws RemoteException;
+    public void fimJogada(String simbolo) throws RemoteException;
     
     // Funções Gerais
     public String printJogo()throws RemoteException;

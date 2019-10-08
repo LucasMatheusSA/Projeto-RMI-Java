@@ -116,20 +116,20 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
         String op = new String();
         op = " ";
         
-        if(vet[7] == vet[6] && vet[6] == vet[8] && vet[6] != " ")op = vet[6];
-        if(vet[3] == vet[4] && vet[4] == vet[5] && vet[4] != " ")op = vet[4];
-        if(vet[0] == vet[1] && vet[1] == vet[2] && vet[1] != " ")op = vet[1];
-        if(vet[6] == vet[3] && vet[3] == vet[0] && vet[3] != " ")op = vet[3];
-        if(vet[7] == vet[4] && vet[4] == vet[1] && vet[4] != " ")op = vet[4];
-        if(vet[8] == vet[5] && vet[5] == vet[2] && vet[5] != " ")op = vet[5];
-        if(vet[6] == vet[4] && vet[4] == vet[2] && vet[4] != " ")op = vet[4];
-        if(vet[8] == vet[4] && vet[4] == vet[0] && vet[4] != " ")op = vet[4];
+        if(vet[7].equals(vet[6]) && vet[6].equals(vet[8]) && !" ".equals(vet[6]))op = vet[6];
+        if(vet[3].equals(vet[4]) && vet[4].equals(vet[5]) && !" ".equals(vet[4]))op = vet[4];
+        if(vet[0].equals(vet[1]) && vet[1].equals(vet[2]) && !" ".equals(vet[1]))op = vet[1];
+        if(vet[6].equals(vet[3]) && vet[3].equals(vet[0]) && !" ".equals(vet[3]))op = vet[3];
+        if(vet[7].equals(vet[4]) && vet[4].equals(vet[1]) && !" ".equals(vet[4]))op = vet[4];
+        if(vet[8].equals(vet[5]) && vet[5].equals(vet[2]) && !" ".equals(vet[5]))op = vet[5];
+        if(vet[6].equals(vet[4]) && vet[4].equals(vet[2]) && !" ".equals(vet[4]))op = vet[4];
+        if(vet[8].equals(vet[4]) && vet[4].equals(vet[0]) && !" ".equals(vet[4]))op = vet[4];
         
-        if(op == "X"){
+        if("X".equals(op)){
             return 2;
-        }else if(op == "O"){
+        }else if("O".equals(op)){
             return 1;
-        }else if(op == " " && checkLines()){
+        }else if(" ".equals(op) && checkLines()){
             return 3;
         }else{
             return 0;
@@ -139,7 +139,7 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
     
     public boolean checkLines(){
         for(int i = 0; i < 9 ; i++){
-            if(vet[i] == " "){
+            if(" ".equals(vet[i])){
                 return false;
             }
         }
@@ -148,7 +148,7 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
 
     @Override
     public int jogada(int jogada) throws RemoteException {
-        if(vet[jogada] == " "){
+        if(" ".equals(vet[jogada])){
             vet[jogada] = "O";
         }else{
             return 0;
@@ -168,17 +168,12 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
 
     @Override
     public int jogadaMult(int jogada, String simbolo) throws RemoteException{
-        if(vet[jogada] == " "){
+        if(" ".equals(vet[jogada])){
             vet[jogada] = simbolo;
         }else{
             return 0;
         }
-        if(simbolo == "O"){
-            setStatus(2);
-        }else{
-            setStatus(1);                        
-        }
-        return getStatus();
+        return 1;
     }
 
     @Override
@@ -191,5 +186,15 @@ public class JogoVelha extends UnicastRemoteObject implements JogoVelhaRemote
     public void cleanVetMult() throws RemoteException {
         cleanVet();
         this.jogando = 0;
+    }
+
+    @Override
+    public void fimJogada(String simbolo) throws RemoteException {
+        
+        if("O".equals(simbolo)){
+            setStatus(2);
+        }else{
+            setStatus(1);                        
+        }
     }
 }

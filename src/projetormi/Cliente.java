@@ -134,6 +134,28 @@ public class Cliente {
         return 0;
     }
     
+    public static int checkGameMult(int result, String jogo,int codigo) throws IOException, InterruptedException{
+        if(result != codigo && result != 0 && result != 3){
+            clean();
+            System.out.println(jogo);
+            System.out.printf("--> Você perdeu  :'( ...");
+            sleep(2);
+            return 2;
+        }else if(result == codigo){
+            clean();
+            System.out.println(jogo);
+            System.out.printf("--> VOCÊ VENCEEEU !!!  : D ");
+            sleep(2);
+            return 1;
+        }else if(result ==  3){
+            clean();
+            System.out.println("--> Empate! ¯\\_(ツ)_/¯ ");
+            sleep(2);
+            return 3;
+        }
+        return 0;
+    }
+    
     public static void SinglePlayer(JogoVelhaRemote remoto) throws IOException, InterruptedException{
         Scanner ler = new Scanner(System.in);
         int op = 0;
@@ -188,22 +210,27 @@ public class Cliente {
         Scanner ler = new Scanner(System.in);
         int op = 0;
         int statusInicial = remoto.getStatus();
-        int codigo = statusInicial + 1;
+        int codigo = 0;
         String simbolo = new String();
-        remoto.initVetMult();
         clean();
         
         if(statusInicial == 0){
+           remoto.initVetMult();
+           codigo = 1;
            remoto.setStatus(codigo);
            simbolo = "O";
            aguardaOponenteLogar(remoto,codigo);
            System.out.println("--> Oponente Logado, você começa.");
-           sleep(1);
+           sleep(2);
            clean();
         }else{
+           codigo = 2;
            simbolo = "X";
            System.out.println("--> Oponente Logado, você é o segundo a jogar.");
+           remoto.setStatus(2);
+           sleep(2);
            clean();
+           remoto.setStatus(1);
            aguardaOponenteJogar(remoto,codigo); 
         }
         
@@ -228,14 +255,16 @@ public class Cliente {
                 }
             }while(op > 9 || op < 1);
                         
-            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVetMult();break;}
+            if(checkGameMult(remoto.endGame(),remoto.printJogo(),codigo) != 0){remoto.fimJogada(simbolo);break;}
             clean();
+            remoto.fimJogada(simbolo);
             aguardaOponenteJogar(remoto,codigo);
             clean();
-            System.out.println("--> Oponente jogou, sua vez." + op);
+            op = checkGameMult(remoto.endGame(),remoto.printJogo(),codigo);
+            if(op != 0){remoto.fimJogada(simbolo);remoto.cleanVetMult();break;}
+            System.out.println("--> Oponente jogou, sua vez.");
             sleep(3);
             clean();
-            if(checkGame(remoto.endGame(),remoto.printJogo()) != 0){remoto.cleanVetMult();break;}
         }
         clean();
     }
@@ -245,7 +274,7 @@ public class Cliente {
         
         do{ 
             clean();
-            System.out.println("--> Aguardando jogada do oponente" + pontos);
+            System.out.println("--> Aguardando jogada do oponente " + pontos);
             sleep((float) 0.5);
             if(pontos.length() == 6){
                 pontos = "";
@@ -261,7 +290,7 @@ public class Cliente {
         
         do{
             clean();
-            System.out.println("--> Aguardando oponente logar" + pontos);
+            System.out.println("--> Aguardando oponente logar " + pontos);
             sleep((float) 0.5);
             if(pontos.length() == 6){
                 pontos = "";
